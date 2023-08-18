@@ -4,24 +4,27 @@ class DialPadWidget extends StatefulWidget {
   @override
   State<DialPadWidget> createState() => _DialPadWidgetState();
 }
-  
+
 class _DialPadWidgetState extends State<DialPadWidget> {
-  late String buttonText="+92 ";
+  late String buttonText = "";
 
   void _changeButtonText(String label) {
     setState(() {
-      if(buttonText.length <= 15)
-      {
-      buttonText=buttonText+label;
-      }
-      else if(buttonText.length == 7)
-      {
-        buttonText=buttonText+" ";
-      }
-      else {
+      if (buttonText.length <= 15) {
+        buttonText = buttonText + label;
+      
+      } else {
         print("Max length reached");
       }
     });
+  }
+
+  String backspace(String input) {
+    if (input.length>0) {
+      return input.substring(0, input.length - 1);
+    }
+
+    return input;
   }
 
   @override
@@ -32,20 +35,32 @@ class _DialPadWidgetState extends State<DialPadWidget> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(padding:EdgeInsets.fromLTRB(0, 0, 0, 3),
-          
-          child: Container(
-            child: Text(buttonText),
-            decoration: BoxDecoration(
-
-              border: Border(
-              bottom: BorderSide(
-                color: Colors.blue, // Border color
-                width: 2.0, // Border width
-              ),
-            ),
-            ),
-          )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                  padding: EdgeInsets.fromLTRB(60, 0, 0, 3),
+                  child: Container(
+                    child: Text(buttonText,
+                    style: TextStyle(fontSize: 24, color: Colors.black),
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.blue, // Border color
+                          width: 2.0, // Border width
+                        ),
+                      ),
+                    ),
+                  )),
+              IconButton(onPressed: () {
+                setState(() {
+                buttonText=backspace(buttonText);
+                  
+                });
+              }, icon: Icon(Icons.backspace_outlined))
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -73,15 +88,17 @@ class _DialPadWidgetState extends State<DialPadWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-               FloatingActionButton(onPressed: (){}, child: Icon(Icons.quick_contacts_dialer),
-             backgroundColor: Colors.green,
-             ),
-             
+              FloatingActionButton(
+                onPressed: () {},
+                child: Icon(Icons.quick_contacts_dialer),
+                backgroundColor: Colors.green,
+              ),
               _buildDialButton(context, '0'),
-            
-               FloatingActionButton(onPressed: (){}, child: Icon(Icons.call_rounded),
-             backgroundColor: Colors.green,
-             ),
+              FloatingActionButton(
+                onPressed: () {},
+                child: Icon(Icons.call_rounded),
+                backgroundColor: Colors.green,
+              ),
             ],
           ),
         ],
@@ -93,13 +110,11 @@ class _DialPadWidgetState extends State<DialPadWidget> {
     return GestureDetector(
       onTap: () {
         _onDialButtonPressed(label);
-         
       },
       child: FloatingActionButton(
-       
-        onPressed: () { _onDialButtonPressed(label);
-        
-          },
+        onPressed: () {
+          _onDialButtonPressed(label);
+        },
         child: Text(
           label,
           style: TextStyle(fontSize: 24, color: Colors.white),
@@ -110,7 +125,7 @@ class _DialPadWidgetState extends State<DialPadWidget> {
 
   void _onDialButtonPressed(String label) {
     // Handle dial button press here
-  _changeButtonText(label);
+    _changeButtonText(label);
     print('Dial button pressed: $label');
   }
 }

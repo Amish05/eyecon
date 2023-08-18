@@ -85,20 +85,16 @@ class _dailerState extends State<dailer> {
               ),
             ),
           ),
-          Stack(
-            children: [Container(
-              height: 516,
-              width: double.infinity,
-              child: ContactListScreen()
-            ),
-
-            Center(child: FloatingActionButton(onPressed: (){
-              _showDialPad(context);
-            },
-            child: Icon(Icons.dialpad_outlined),))
-            
-            ]
+          Container(
+            height: 516,
+            width: double.infinity,
+            child: ContactListScreen()
           ),
+
+          Center(child: FloatingActionButton(onPressed: (){
+            _showDialPad(context);
+          },
+          child: Icon(Icons.dialpad_outlined),)),
         ],
       ),
     );

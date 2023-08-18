@@ -1,3 +1,4 @@
+import 'package:eyecon/screens/diaplpad.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,10 +15,8 @@ class _lookupState extends State<lookup> {
     return Scaffold(
       backgroundColor: Colors.pink.shade100,
       body: Center(
-          child: Text(
-        'Lookup',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      )),
+          child: DialPadWidget()
+      ),
     );
   }
 }
