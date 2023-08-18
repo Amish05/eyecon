@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:eyecon/screens/contactdetail.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -51,15 +54,24 @@ class _ContactListScreenState extends State<ContactListScreen> {
                   Contact contact = contacts[index];
                   return GestureDetector(
                     onTap: () {
-                      // You can handle contact selection here
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ContactDetial(
+                                    contact: contact,
+                                  )));
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // CircleAvatar(
+                        //   backgroundImage: _getAvatarImage(contact),
+                        //   radius: 50.0,
+                        // ),
                         const CircleAvatar(
                           backgroundImage:
-                              AssetImage("assets/images/personavt.webp"),
-                          radius: 50.0,
+                              AssetImage('assets/images/personavt.webp'),
+                          radius: 20.0,
                         ),
                         SizedBox(height: 8.0),
                         Flexible(
@@ -85,7 +97,14 @@ class _ContactListScreenState extends State<ContactListScreen> {
 
   ImageProvider<Object>? _getAvatarImage(Contact contact) {
     if (contact.avatar != null) {
-      return MemoryImage(contact.avatar!);
+      Uint8List uint8ImageData =
+          Uint8List.fromList(contact.avatar as List<int>);
+      print('Image data length: ${uint8ImageData.length}');
+
+      ImageProvider imageProvider = MemoryImage(uint8ImageData);
+      print('MemoryImage created: $imageProvider');
+
+      return imageProvider;
     } else {
       return const AssetImage('assets/images/personavt.webp');
     }
