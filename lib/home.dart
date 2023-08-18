@@ -17,7 +17,7 @@ class _HomepageState extends State<Homepage> {
   int selectedPage = 0;
   final List<Widget> _pages = [
     HomepageScreen(),
-    SMS(),
+    SMSScreen(),
     dailer(),
     lookup(),
     more(),
