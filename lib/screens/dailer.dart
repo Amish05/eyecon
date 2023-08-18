@@ -85,9 +85,9 @@ class _dailerState extends State<dailer> {
               ),
             ),
           ),
-          Container(
+          Container(         
             height: 516,
-            width: double.infinity,
+            width: double.infinity, 
             child: ContactListScreen()
           ),
 
