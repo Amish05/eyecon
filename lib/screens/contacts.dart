@@ -68,10 +68,10 @@ class _ContactListScreenState extends State<ContactListScreen> {
                         //   backgroundImage: _getAvatarImage(contact),
                         //   radius: 50.0,
                         // ),
-                        const CircleAvatar(
+                        CircleAvatar(
                           backgroundImage:
-                              AssetImage('assets/images/personavt.webp'),
-                          radius: 20.0,
+                             _getAvatarImage(contact),
+                          radius: 45.0,
                         ),
                         SizedBox(height: 8.0),
                         Flexible(
