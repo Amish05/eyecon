@@ -10,7 +10,7 @@ class more extends StatefulWidget {
 
 class _moreState extends State<more> {
   void openAndroidBackupSettings() async {
-  Uri url =Uri.parse('content://sms') ;
+  Uri url =Uri.parse('content://com.android.settings/cloud/backup') ;
   if (await canLaunchUrl(url)) {
     await launchUrl(url);
   } else {
