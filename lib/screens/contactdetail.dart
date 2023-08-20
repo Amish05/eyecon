@@ -30,6 +30,7 @@ class ContactDetial extends StatelessWidget {
               top: 10.0,
               left: 120.0,
               child: CircleButton(
+                buttonColor: Colors.blue,
                 onTap: () async {
                   Uri url = Uri.parse('sms:${contact.phones![0].value}');
                   if (await canLaunchUrl(url)) {
@@ -45,7 +46,68 @@ class ContactDetial extends StatelessWidget {
               top: 30.0,
               left: 190.0,
               child: CircleButton(
-                onTap: () => print("Cool"),
+                buttonColor: Colors.lightBlue,
+                onTap: () async {
+                  if (contact.phones != null && contact.phones!.isNotEmpty) {
+                    final facebookUsername = contact.phones![0].value;
+                    if (facebookUsername != null &&
+                        facebookUsername.isNotEmpty) {
+                      Uri facebookUrl = Uri.parse(
+                          "https://www.facebook.com/search/people?q=$facebookUsername");
+
+                      if (await canLaunchUrl(facebookUrl)) {
+                        await launchUrl(facebookUrl);
+                      } else {
+                        // Facebook app is not installed, open in browser
+                        Uri webFacebookUrl = Uri.parse(
+                            "https://www.facebook.com/$facebookUsername");
+                        if (await canLaunchUrl(webFacebookUrl)) {
+                          await launchUrl(webFacebookUrl);
+                        } else {
+                          // Unable to open Facebook profile
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("No User Found"),
+                                content: Text(
+                                    "The user is not available on Facebook."),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("OK"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
+                    } else {
+                      // Phone number is not available
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("No Phone Number"),
+                            content: Text(
+                                "The user's phone number is not available."),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  }
+                },
                 iconData: FontAwesomeIcons.facebook,
               ),
             ),
@@ -53,6 +115,7 @@ class ContactDetial extends StatelessWidget {
               top: 30.0,
               right: 190.0,
               child: CircleButton(
+                buttonColor: const Color.fromARGB(255, 12, 206, 28),
                 onTap: () async {
                   if (contact.phones != null && contact.phones!.isNotEmpty) {
                     final whatsapp = contact.phones![0].value ?? '';
@@ -71,6 +134,7 @@ class ContactDetial extends StatelessWidget {
               top: 90.0,
               right: 220.0,
               child: CircleButton(
+                buttonColor: Colors.greenAccent,
                 onTap: () async {
                   Uri url = Uri.parse('tel:${contact.phones![0].value}');
                   if (await canLaunchUrl(url)) {
@@ -88,6 +152,7 @@ class ContactDetial extends StatelessWidget {
               child: CircleButton(
                 onTap: () => print("Cool"),
                 iconData: Icons.more_vert,
+                buttonColor: Color.fromARGB(255, 112, 197, 16),
               ),
             ),
             Positioned(
@@ -146,8 +211,13 @@ class ContactDetial extends StatelessWidget {
 class CircleButton extends StatelessWidget {
   final GestureTapCallback onTap;
   final IconData iconData;
+  final Color buttonColor;
 
-  const CircleButton({required this.onTap, required this.iconData});
+  CircleButton({
+    required this.onTap,
+    required this.iconData,
+    required this.buttonColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -158,8 +228,8 @@ class CircleButton extends StatelessWidget {
       child: Container(
         width: size,
         height: size,
-        decoration: const BoxDecoration(
-          color: Colors.blueAccent,
+        decoration: BoxDecoration(
+          color: buttonColor,
           shape: BoxShape.circle,
         ),
         child: Icon(

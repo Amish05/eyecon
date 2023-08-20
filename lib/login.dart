@@ -12,8 +12,13 @@ class _loginPageState extends State<loginPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String _verificationId = '';
   late String _phoneNumber;
+  bool _isLoading = false;
 
   Future<void> _verifyPhoneNumber() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     await _auth.verifyPhoneNumber(
       phoneNumber: _phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) async {
@@ -22,13 +27,16 @@ class _loginPageState extends State<loginPage> {
             context, MaterialPageRoute(builder: (context) => user_detials()));
       },
       verificationFailed: (FirebaseAuthException e) {
+        setState(() {
+          _isLoading = false;
+        });
         print(e.message);
       },
       codeSent: (String verificationId, int? resendToken) {
         setState(() {
           _verificationId = verificationId;
+          _isLoading = false;
         });
-        // Navigate to the OTP verification screen
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -40,6 +48,7 @@ class _loginPageState extends State<loginPage> {
       codeAutoRetrievalTimeout: (String verificationId) {
         setState(() {
           _verificationId = verificationId;
+          _isLoading = false;
         });
       },
       timeout: const Duration(seconds: 60),
@@ -66,11 +75,13 @@ class _loginPageState extends State<loginPage> {
               _phoneNumber = phone.completeNumber;
             },
           ),
-          TextButton(
-            onPressed: () {
-              _verifyPhoneNumber();
-            },
-            child: const Text("Login"),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              fixedSize: const Size(100, 50),
+            ),
+            onPressed: _isLoading ? null : _verifyPhoneNumber,
+            child:
+                _isLoading ? CircularProgressIndicator() : const Text("Login"),
           ),
         ],
       ),
@@ -130,9 +141,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                _verifyOtp();
-              },
+              onPressed: _verifyOtp,
               child: const Text('Verify OTP'),
             ),
           ],
