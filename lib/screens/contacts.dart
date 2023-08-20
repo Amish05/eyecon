@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:eyecon/screens/contactdetail.dart';
 import 'package:flutter/material.dart';
@@ -69,11 +71,10 @@ class _ContactListScreenState extends State<ContactListScreen> {
                         //   radius: 50.0,
                         // ),
                         CircleAvatar(
-                          backgroundImage:
-                             _getAvatarImage(contact),
+                          backgroundImage: _getAvatarImage(contact),
                           radius: 45.0,
                         ),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         Flexible(
                           child: RichText(
                             overflow: TextOverflow.ellipsis,
@@ -96,15 +97,12 @@ class _ContactListScreenState extends State<ContactListScreen> {
   }
 
   ImageProvider<Object>? _getAvatarImage(Contact contact) {
-    if (contact.avatar != null) {
+    if (contact.avatar!.isNotEmpty) {
       Uint8List uint8ImageData =
           Uint8List.fromList(contact.avatar as List<int>);
-      print('Image data length: ${uint8ImageData.length}');
+      //  print('Image data length: ${uint8ImageData.length}');
 
-      ImageProvider imageProvider = MemoryImage(uint8ImageData);
-      print('MemoryImage created: $imageProvider');
-
-      return imageProvider;
+      return MemoryImage(uint8ImageData);
     } else {
       return const AssetImage('assets/images/personavt.webp');
     }

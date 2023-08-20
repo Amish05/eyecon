@@ -30,7 +30,8 @@ class _dailerState extends State<dailer> {
     }
     return [];
   }
- void _showDialPad(BuildContext context) {
+
+  void _showDialPad(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -38,6 +39,7 @@ class _dailerState extends State<dailer> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +63,6 @@ class _dailerState extends State<dailer> {
           //   width: double.infinity,
           // ),
           Container(
-            
             margin:
                 const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 15),
             child: TextField(
@@ -85,16 +86,15 @@ class _dailerState extends State<dailer> {
               ),
             ),
           ),
-          Container(         
-            height: 516,
-            width: double.infinity, 
-            child: ContactListScreen()
-          ),
+          Container(
+              height: 516, width: double.infinity, child: ContactListScreen()),
 
-          Center(child: FloatingActionButton(onPressed: (){
-            _showDialPad(context);
-          },
-          child: Icon(Icons.dialpad_outlined),)),
+          FloatingActionButton(
+            onPressed: () {
+              _showDialPad(context);
+            },
+            child: const Icon(Icons.dialpad_outlined),
+          ),
         ],
       ),
     );

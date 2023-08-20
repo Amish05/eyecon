@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SMSScreen extends StatefulWidget {
   const SMSScreen({Key? key}) : super(key: key);
@@ -101,39 +102,46 @@ class _MessagesListView extends StatelessWidget {
           elevation: 2.0,
           margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
           child: ListTile(
-            contentPadding: const EdgeInsets.all(10.0),
-            title: Text(
-              '${message.sender}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
+              contentPadding: const EdgeInsets.all(10.0),
+              title: Text(
+                '${message.sender}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
               ),
-            ),
-            subtitle: Text(
-              '${message.body}',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 14.0),
-            ),
-            trailing: Column(
-              children: [
-                Text(
-                  '${message.date?.hour}:${message.date?.minute}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
+              subtitle: Text(
+                '${message.body}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 14.0),
+              ),
+              trailing: Column(
+                children: [
+                  Text(
+                    '${message.date?.day}/${message.date?.month}/${message.date?.year}',
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                    ),
                   ),
-                ),
-                const Icon(
-                  Icons.message,
-                  color: Colors.blue,
-                ),
-              ],
-            ),
-            onTap: () {
-              // Handle tile tap here
-            },
-          ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  const Icon(
+                    Icons.message,
+                    color: Colors.blue,
+                  ),
+                ],
+              ),
+              onTap: () async {
+                Uri sms = Uri.parse('sms:${message.sender}');
+                if (await canLaunchUrl(sms)) {
+                  await launchUrl(sms);
+                  // print("URL clicked");
+                } else {
+                  // print("URL launch failed");
+                }
+              }),
         );
       },
     );

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "651284158218",
+    "project_id": "eyecon-cbeaf",
+    "storage_bucket": "eyecon-cbeaf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651284158218:android:5d2a3bac711e219a67ccf3",
+        "android_client_info": {
+          "package_name": "com.example.eyecon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651284158218-80hj433q1p32ho35ah78moadps8skdnf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVAuS2UGol_RmdgM6aQ1KkMzrGjUPwiYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651284158218-80hj433q1p32ho35ah78moadps8skdnf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
